@@ -155,12 +155,16 @@ sub {
 }
 img {
   /* Responsive images (ensure images don't scale beyond their parents) */
+
   max-width: 100%;
   /* Part 1: Set a maxium relative to the parent */
+
   width: auto\9;
   /* IE7-8 need help adjusting responsive images */
+
   height: auto;
   /* Part 2: Scale the height according to the width, otherwise you get stretching */
+
   vertical-align: middle;
   border: 0;
   -ms-interpolation-mode: bicubic;
@@ -206,7 +210,7 @@ img {
   img {
     max-width: 100% !important;
   }
-  @page {
+  @page  {
     margin: 0.5cm;
   }
   p,
@@ -372,6 +376,8 @@ section {
   font-family: 'FontAwesome';
   src: url('//netdna.bootstrapcdn.com/font-awesome/3.2.1/font/fontawesome-webfont.eot?v=3.2.1');
   src: url('//netdna.bootstrapcdn.com/font-awesome/3.2.1/font/fontawesome-webfont.eot?#iefix&v=3.2.1') format('embedded-opentype'), url('//netdna.bootstrapcdn.com/font-awesome/3.2.1/font/fontawesome-webfont.woff?v=3.2.1') format('woff'), url('//netdna.bootstrapcdn.com/font-awesome/3.2.1/font/fontawesome-webfont.ttf?v=3.2.1') format('truetype'), url('//netdna.bootstrapcdn.com/font-awesome/3.2.1/font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1') format('svg');
+  src: url('http://netdna.bootstrapcdn.com/font-awesome/3.2.1/font/fontawesome-webfont.eot?v=3.2.1');
+  src: url('http://netdna.bootstrapcdn.com/font-awesome/3.2.1/font/fontawesome-webfont.eot?#iefix&v=3.2.1') format('embedded-opentype'), url('http://netdna.bootstrapcdn.com/font-awesome/3.2.1/font/fontawesome-webfont.woff?v=3.2.1') format('woff'), url('http://netdna.bootstrapcdn.com/font-awesome/3.2.1/font/fontawesome-webfont.ttf?v=3.2.1') format('truetype'), url('http://netdna.bootstrapcdn.com/font-awesome/3.2.1/font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -395,7 +401,7 @@ section {
 /* makes the font 33% larger relative to the icon container */
 .icon-large:before {
   vertical-align: -10%;
-  font-size: 1.33333333em;
+  font-size: 1.3333333333333333em;
 }
 /* makes sure icons active on rollover in links */
 a [class^="icon-"],
@@ -406,16 +412,16 @@ a [class*=" icon-"] {
 [class^="icon-"].icon-fixed-width,
 [class*=" icon-"].icon-fixed-width {
   display: inline-block;
-  width: 1.14285714em;
+  width: 1.1428571428571428em;
   text-align: right;
-  padding-right: 0.28571429em;
+  padding-right: 0.2857142857142857em;
 }
 [class^="icon-"].icon-fixed-width.icon-large,
 [class*=" icon-"].icon-fixed-width.icon-large {
-  width: 1.42857143em;
+  width: 1.4285714285714286em;
 }
 .icons-ul {
-  margin-left: 2.14285714em;
+  margin-left: 2.142857142857143em;
   list-style-type: none;
 }
 .icons-ul > li {
@@ -423,8 +429,8 @@ a [class*=" icon-"] {
 }
 .icons-ul .icon-li {
   position: absolute;
-  left: -2.14285714em;
-  width: 2.14285714em;
+  left: -2.142857142857143em;
+  width: 2.142857142857143em;
   text-align: center;
   line-height: inherit;
 }
@@ -1849,6 +1855,7 @@ ol.inline > li {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
+
   *zoom: 1;
   padding-left: 5px;
   padding-right: 5px;
@@ -1897,6 +1904,7 @@ dd {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
+
   *zoom: 1;
   margin-left: 0;
   margin-bottom: 0;
@@ -2085,7 +2093,7 @@ a:focus {
 }
 .social a {
   color: #ffffff;
-  line-height: 44.4px;
+  line-height: 44.400000000000006px;
   -webkit-transition: text-shadow 0.5s;
   -moz-transition: text-shadow 0.5s;
   -o-transition: text-shadow 0.5s;
@@ -2521,6 +2529,7 @@ pre.code {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
+
   *zoom: 1;
   margin-right: 10px;
 }
