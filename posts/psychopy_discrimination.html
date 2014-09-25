@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Testing discrimination between Motion Clouds with psychopy | Motion Clouds</title>
+
+                <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+
+                <link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+
+      <link rel="canonical" href="http://neuralensemble.github.io/MotionClouds/posts/psychopy_discrimination.html">
+
+
+
+    
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+    },
+    displayAlign: 'left', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script>
+
+        <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+
+    
+
+    
+    <meta name="author" content="Laurent Perrinet">
+        <meta name="og:title" content="Testing discrimination between Motion Clouds with psychopy">
+    <meta name="og:url" content="http://neuralensemble.github.io/MotionClouds/posts/psychopy_discrimination.html">
+    <meta name="og:description" content="Analysis of a discrimination experiment¶
+
+
+
+
+
+
+
+
+
+In the psychopy_discrimination.py script, we implemented an experiment to test whether the overall shape of motion clouds could influence discriminati">
+    <meta name="og:site_name" content="Motion Clouds">
+    <meta name="og:type" content="article">
+
+    
+    
+
+</head>
+<body>
+    <section class="social">
+        <ul>
+                    <li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../install.html" title="Install"><i class="icon-italic"></i></a></li>
+            <li><a href="../blog" title="Blog!"><i class="icon-folder-open-user"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-pushpin"></i></a></li>
+            <li><a href="http://invibe.net" title="About my research"><i class="icon-user"></i></a></li>
+            <li><a href="https://github.com/NeuralEnsemble/MotionClouds" title="My Github"><i class="icon-github"></i></a></li>
+            <li><a href="https://plus.google.com/+LaurentPerrinet" title="My Google plus"><i class="icon-google-plus"></i></a></li>
+
+        </ul>
+    </section>
+    <section class="page-content">
+        <div class="content" rel="main">
+    <div class="post">
+        <h1 class="p-name entry-title" itemprop="headline name">Testing discrimination between Motion Clouds with psychopy</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-08-21T08:17:00+02:00">2013-08-21 08:17</time>
+            
+                      |  
+        <a href="psychopy_discrimination.ipynb" id="sourcelink">Source</a>
+          |  
+        <a href="javascript:%24.getScript(%22/assets/js/miniPageNav.js%22);">Minimap</a>
+
+            </div>
+                    <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/motionclouds.html" rel="tag">motionclouds</a></li>
+           <li><a class="tag p-category" href="../categories/psychopy.html" rel="tag">psychopy</a></li>
+           <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
+        </ul>
+        </div>
+
+        </div>
+        <div class="body">
+            <div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Analysis-of-a-discrimination-experiment">Analysis of a discrimination experiment<a class="anchor-link" href="psychopy_discrimination.html#Analysis-of-a-discrimination-experiment">¶</a>
+</h2>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the <code>psychopy_discrimination.py</code> script, we implemented an experiment to test whether the overall shape of motion clouds could influence discrimination of speed.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Herein, we analyse the data that was collected over different sessions and try to draw some conclusions.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [1]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pylab</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-experiment">The experiment<a class="anchor-link" href="psychopy_discrimination.html#The-experiment">¶</a>
+</h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [2]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="c">#%pycat psychopy_discrimination.py</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Analysis---version-1">Analysis - version 1<a class="anchor-link" href="psychopy_discrimination.html#Analysis---version-1">¶</a>
+</h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In a first version of the experiment, we only stored the results in a numpy file.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [3]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="o">!</span>ls  ../data/discriminating_*
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper output_hidden">
+<div class="output">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+../data/discriminating_john_Jan_23_1515.npy  ../data/discriminating_lup_Jan_24_0914.npy  ../data/discriminating_lup_Jan_24_0937.npy
+../data/discriminating_lup_Jan_23_1401.npy   ../data/discriminating_lup_Jan_24_0919.npy  ../data/discriminating_v2_lup_Feb_07_1409.pickle
+../data/discriminating_lup_Jan_23_1735.npy   ../data/discriminating_lup_Jan_24_0931.npy  ../data/discriminating_v2_lup_Feb_07_1434.pickle
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [4]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="o">!</span>ls  ../data/
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper output_hidden">
+<div class="output">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+competing.pickle		    competing_v1_meduz_Dec_14_1204.npy	       discriminating_john_Jan_23_1515.npy  discriminating_lup_Jan_24_0931.npy
+competing_v1_bruno_Dec_14_1210.npy  competing_v2_anonymous_Feb_07_1558.pickle  discriminating_lup_Jan_23_1401.npy   discriminating_lup_Jan_24_0937.npy
+competing_v1_lup_Dec_12_1003.npy    competing_v2_anonymous_Sep_16_1746.pickle  discriminating_lup_Jan_23_1735.npy   discriminating_v2_lup_Feb_07_1409.pickle
+competing_v1_lup_Dec_12_1013.npy    competing_v2_jean_Sep_03_1536.npy	       discriminating_lup_Jan_24_0914.npy   discriminating_v2_lup_Feb_07_1434.pickle
+competing_v1_lup_Dec_14_1201.npy    competing_v2_jean_Sep_03_1536.pickle       discriminating_lup_Jan_24_0919.npy
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [5]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">glob</span>
+<span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s">'../data/discriminating_*npy'</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">fn</span><span class="p">,</span> <span class="n">results</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'analyzing results'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">'# of trials :'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">'average results: '</span><span class="p">,</span> <span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">*.</span><span class="mi">5</span><span class="o">+.</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper output_hidden">
+<div class="output">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+../data/discriminating_john_Jan_23_1515.npy (2, 50)
+analyzing results
+# of trials : [ 50.     24.508]
+average results:  [ 0.48  1.  ]
+../data/discriminating_lup_Jan_23_1401.npy (2, 50)
+analyzing results
+# of trials : [ 50.     28.126]
+average results:  [ 0.66  1.  ]
+../data/discriminating_lup_Jan_23_1735.npy (3, 50)
+analyzing results
+# of trials : [  9.  14.  13.]
+average results:  [ 1.  1.  1.]
+../data/discriminating_lup_Jan_24_0914.npy (3, 50)
+analyzing results
+# of trials : [ 17.  21.  12.]
+average results:  [ 0.647  0.857  1.   ]
+../data/discriminating_lup_Jan_24_0919.npy (3, 50)
+analyzing results
+# of trials : [ 10.  25.  15.]
+average results:  [ 0.7    0.32   0.533]
+../data/discriminating_lup_Jan_24_0931.npy (7, 50)
+analyzing results
+# of trials : [  3.   4.   8.   8.   7.  12.   8.]
+average results:  [ 0.667  1.     0.625  0.375  1.     0.167  0.125]
+../data/discriminating_lup_Jan_24_0937.npy (7, 50)
+analyzing results
+# of trials : [  7.   5.   6.  12.  10.   2.   8.]
+average results:  [ 0.857  0.8    0.833  0.417  0.2    1.     0.375]
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [6]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">whos</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper output_hidden">
+<div class="output">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Variable   Type       Data/Info
+-------------------------------
+fn         str        ../data/discriminating_lup_Jan_24_0937.npy
+glob       module     &lt;module 'glob' from '/usr&lt;...&gt;/lib/python2.7/glob.pyc'&gt;
+np         module     &lt;module 'numpy' from '/us&lt;...&gt;ages/numpy/__init__.pyc'&gt;
+plt        module     &lt;module 'matplotlib.pyplo&lt;...&gt;s/matplotlib/pyplot.pyc'&gt;
+pylab      module     &lt;module 'pylab' from '/us&lt;...&gt;site-packages/pylab.pyc'&gt;
+results    ndarray    7x50: 350 elems, type `float64`, 2800 bytes
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Another solution is to use:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [7]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="c">#data= 1</span>
+<span class="c">#np.savez('toto', data=data, results=results)</span>
+<span class="c">#print np.load('toto.npz')['data']</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>or directly <code>psychopy.misc</code>:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [8]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">psychopy</span> <span class="kn">import</span> <span class="n">misc</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [9]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="c">#info = misc.fromFile('../data/discriminating.pickle')</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [10]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="n">alphas</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-.</span><span class="mi">5</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.</span><span class="p">]</span>
+<span class="n">fileName</span> <span class="o">=</span> <span class="s">'../data/discriminating_'</span> <span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="s">'observer'</span><span class="p">]</span> <span class="o">+</span> <span class="s">'.pickle'</span>
+<span class="n">info</span><span class="p">[</span><span class="s">'alphas'</span><span class="p">]</span> <span class="o">=</span> <span class="n">alphas</span>
+<span class="n">info</span><span class="p">[</span><span class="s">'results'</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span>
+<span class="c">#numpy.savez(fileName, results=results, alphas=alphas)</span>
+<span class="n">misc</span><span class="o">.</span><span class="n">toFile</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper output_hidden">
+<div class="output">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_text output_pyerr">
+<pre>
+<span class="ansired">---------------------------------------------------------------------------</span>
+<span class="ansired">NameError</span>                                 Traceback (most recent call last)
+<span class="ansigreen">&lt;ipython-input-10-1bd6d05d02af&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
+<span class="ansigreen">      1</span> alphas <span class="ansiblue">=</span> <span class="ansiblue">[</span><span class="ansiblue">-</span><span class="ansicyan">1.</span><span class="ansiblue">,</span> <span class="ansiblue">-</span><span class="ansicyan">.5</span><span class="ansiblue">,</span> <span class="ansicyan">0.</span><span class="ansiblue">,</span> <span class="ansicyan">0.5</span><span class="ansiblue">,</span> <span class="ansicyan">1.</span><span class="ansiblue">,</span> <span class="ansicyan">1.5</span><span class="ansiblue">,</span> <span class="ansicyan">2.</span><span class="ansiblue">]</span><span class="ansiblue"></span>
+<span class="ansigreen">----&gt; 2</span><span class="ansired"> </span>fileName <span class="ansiblue">=</span> <span class="ansiblue">'../data/discriminating_'</span> <span class="ansiblue">+</span> info<span class="ansiblue">[</span><span class="ansiblue">'observer'</span><span class="ansiblue">]</span> <span class="ansiblue">+</span> <span class="ansiblue">'.pickle'</span><span class="ansiblue"></span>
+<span class="ansigreen">      3</span> info<span class="ansiblue">[</span><span class="ansiblue">'alphas'</span><span class="ansiblue">]</span> <span class="ansiblue">=</span> alphas<span class="ansiblue"></span>
+<span class="ansigreen">      4</span> info<span class="ansiblue">[</span><span class="ansiblue">'results'</span><span class="ansiblue">]</span> <span class="ansiblue">=</span> results<span class="ansiblue"></span>
+<span class="ansigreen">      5</span> <span class="ansired">#numpy.savez(fileName, results=results, alphas=alphas)</span><span class="ansiblue"></span><span class="ansiblue"></span>
+
+<span class="ansired">NameError</span>: name 'info' is not defined</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Analysis---version-2">Analysis - version 2<a class="anchor-link" href="psychopy_discrimination.html#Analysis---version-2">¶</a>
+</h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the second version, we stored more data:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [11]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">psychopy</span> <span class="kn">import</span> <span class="n">misc</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s">'../data/discriminating_v2_*pickle'</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">misc</span><span class="o">.</span><span class="n">fromFile</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">fn</span><span class="p">,</span> <span class="n">results</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'analyzing results'</span><span class="p">)</span>
+    <span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'alphas'</span><span class="p">])</span>
+    <span class="k">print</span> <span class="s">' alphas = '</span><span class="p">,</span> <span class="n">alphas</span>
+    <span class="k">print</span> <span class="s">'# of trials :'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'results'</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">'average results: '</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'results'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'results'</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">*.</span><span class="mi">5</span><span class="o">+.</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="n">alphas</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">-</span><span class="n">alphas</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">alphas</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'alphas'</span><span class="p">]</span> <span class="o">-</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'results'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'results'</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">*.</span><span class="mi">5</span><span class="o">+.</span><span class="mi">5</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">3</span> <span class="p">)</span>
+<span class="c">#    for i_trial in xrange(data['results'].shape[1]):</span>
+<span class="c">#        ax.scatter(data['alphas'][data['results']</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'</span><span class="si">% c</span><span class="s">orrect'</span><span class="p">)</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper output_hidden">
+<div class="output">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+../data/discriminating_v2_lup_Feb_07_1409.pickle (7, 50)
+analyzing results
+ alphas =  [-1.  -0.5  0.   0.5  1.   1.5  2. ]
+# of trials : [ 10.   4.   5.  11.   6.  11.   3.]
+average results:  [ 0.7    1.     0.4    0.545  0.833  0.273  1.   ]
+../data/discriminating_v2_lup_Feb_07_1434.pickle (7, 50)
+analyzing results
+ alphas =  [-1.  -0.5  0.   0.5  1.   1.5  2. ]
+# of trials : [  4.   3.  10.  12.   8.   8.   5.]
+average results:  [ 0.75   0.667  0.8    0.5    0.125  0.25   0.4  ]
+
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt output_prompt">
+    Out[11]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+&lt;matplotlib.text.Text at 0x10d17a610&gt;
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [12]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="c"># TODO : correct for the number of trials / make global reading / make a new draw of alphas</span>
+<span class="c"># TODO : test f_0</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In []:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+        </div>
+                <ul class="pager">
+            <li class="next">
+                <a href="testing_basis.html" rel="next" title="Testing basic functions of Motion Clouds">Next post</a>
+            </li>
+        </ul>
+
+                            <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="invibe",
+            disqus_url="http://neuralensemble.github.io/MotionClouds/posts/psychopy_discrimination.html",
+        disqus_title="Testing discrimination between Motion Clouds with psychopy",
+        disqus_identifier="cache/posts/psychopy_discrimination.html",
+        disqus_config = function () {
+            this.language = "";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="//disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    </div>
+                    <footer id="footer" role="contentinfo">
+            <p>Contents © 2014 <a href="mailto:laurent.perrinet@univ-amu.fr">Laurent Perrinet</a> - 
+Powered by <a href="http://getnikola.com">Nikola</a> - 
+Zen theme based in <a href="https://github.com/arusahni/website-template">Arusahni's website-template</a><br>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/ar/">
+<img alt="Creative Commons License BY-NC-SA" style="border-width:0; margin-bottom:12px;" src="http://i.creativecommons.org/l/by-nc-sa/2.5/ar/88x31.png"></a></p>
+            
+        </footer>
+
+        </div>
+    </section>
+    
+    
+                <script src="../assets/js/all-nocdn.js" type="text/javascript"></script>
+    
+ <!-- Social buttons -->
+ <div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
+ <a class="addthis_button_more"><i class="icon-share-sign icon-2x"></i>    Share</a>
+ <ul>
+ <li>
+<a class="addthis_button_twitter"><i class="icon-twitter icon-2x"></i>    Twitter</a>
+ </li>
+<li>
+<a class="addthis_button_google_plusone_share"><i class="icon-google-plus-sign icon-2x"></i>    Google+</a>
+ </li>
+<li>
+<a class="addthis_button_linkedin"><i class="icon-linkedin icon-2x"></i>    Linkedin</a>
+ </li>
+<li>
+<a class="addthis_button_facebook"><i class="icon-facebook-sign icon-2x"></i>    Facebook</a>
+ </li>
+</ul>
+ </div>
+ <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f7088a56bb93798"></script>
+ <!-- End of social buttons -->
+ 
+
+        <script type="text/javascript">
+            $(function(){
+                $('.timeago').timeago();
+            });
+        </script>
+</body>
+</html>
