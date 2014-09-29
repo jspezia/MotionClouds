@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Testing the different components of the enveloppe | Motion Clouds</title>
+
+                <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+
+                <link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+
+      <link rel="canonical" href="http://neuralensemble.github.io/MotionClouds/posts/testing_components.html">
+
+            <link rel="icon" href="favicon.ico" sizes="16x16">
+
+
+    
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+    },
+    displayAlign: 'left', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script>
+
+        <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+
+    
+
+    
+    <meta name="author" content="Laurent Perrinet">
+        <meta name="og:title" content="Testing the different components of the enveloppe">
+    <meta name="og:url" content="http://neuralensemble.github.io/MotionClouds/posts/testing_components.html">
+    <meta name="og:description" content="Motion Clouds: testing components of the envelope¶
+
+
+
+
+
+
+
+In [1]:
+
+
+
+import numpy as np
+np.set_printoptions(precision=3, suppress=True)
+import pylab
+import matplotlib.pyplot as plt
+%matplotlib inline
+">
+    <meta name="og:site_name" content="Motion Clouds">
+    <meta name="og:type" content="article">
+
+    
+    
+
+</head>
+<body>
+    <section class="social">
+        <ul>
+                    <li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../install.html" title="Install"><i class="icon-italic"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../galleries/index.html" title="Galleries"><i class="icon-book"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-pushpin"></i></a></li>
+            <li><a href="http://invibe.net" title="About my research"><i class="icon-user"></i></a></li>
+            <li><a href="https://github.com/NeuralEnsemble/MotionClouds" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul>
+    </section>
+    <section class="page-content">
+        <div class="content" rel="main">
+    <div class="post">
+        <h1 class="p-name entry-title" itemprop="headline name">Testing the different components of the enveloppe</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-08-21T08:17:00+02:00">2013-08-21 08:17</time>
+            
+                      |  
+        <a href="testing_components.ipynb" id="sourcelink">Source</a>
+          |  
+        <a href="javascript:%24.getScript(%22/assets/js/miniPageNav.js%22);">Minimap</a>
+
+            </div>
+                    <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/motionclouds.html" rel="tag">motionclouds</a></li>
+           <li><a class="tag p-category" href="../categories/psychopy.html" rel="tag">psychopy</a></li>
+           <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
+        </ul>
+        </div>
+
+        </div>
+        <div class="body">
+            <div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Motion-Clouds:-testing-components-of-the-envelope">Motion Clouds: testing components of the envelope<a class="anchor-link" href="testing_components.html#Motion-Clouds:-testing-components-of-the-envelope">¶</a>
+</h2>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [1]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pylab</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [2]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">'..'</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">MotionClouds</span> <span class="kn">as</span> <span class="nn">mc</span>
+<span class="n">fx</span><span class="p">,</span> <span class="n">fy</span><span class="p">,</span> <span class="n">ft</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_grids</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">N_X</span><span class="p">,</span> <span class="n">mc</span><span class="o">.</span><span class="n">N_Y</span><span class="p">,</span> <span class="n">mc</span><span class="o">.</span><span class="n">N_frame</span><span class="p">)</span>
+<span class="c">#mc.recompute = True</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">notebook</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Testing-the-color">Testing the color<a class="anchor-link" href="testing_components.html#Testing-the-color">¶</a>
+</h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [3]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">bookmark</span> <span class="n">root</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [4]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">cd</span>..
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper output_hidden">
+<div class="output">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+/Users/lolo/Dropbox/science/MotionClouds
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [5]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">run</span> <span class="n">test_color</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper output_hidden">
+<div class="output">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+WARNING:traits.has_traits:DEPRECATED: traits.has_traits.wrapped_class, 'the 'implements' class advisor has been deprecated. Use the 'provides' class decorator.
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Imported Mayavi
+Saving sequence results/color-contrast-0_1.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.403 | ETA[sec]: -0.396 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:31
+                      Finished: 09/22/2014 17:23:31
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-contrast-0_25.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.218 | ETA[sec]: -0.215 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:31
+                      Finished: 09/22/2014 17:23:32
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-contrast-0_5.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.222 | ETA[sec]: -0.218 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:32
+                      Finished: 09/22/2014 17:23:32
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-contrast-0_75.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.186 | ETA[sec]: -0.183 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:33
+                      Finished: 09/22/2014 17:23:33
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-contrast-1_0.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.179 | ETA[sec]: -0.176 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:34
+                      Finished: 09/22/2014 17:23:34
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-contrast-2_0.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.198 | ETA[sec]: -0.195 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:34
+                      Finished: 09/22/2014 17:23:34
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-energy_contrast-0_1.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.193 | ETA[sec]: -0.190 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:35
+                      Finished: 09/22/2014 17:23:35
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-energy_contrast-0_25.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.186 | ETA[sec]: -0.183 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:35
+                      Finished: 09/22/2014 17:23:36
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-energy_contrast-0_5.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.188 | ETA[sec]: -0.185 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:36
+                      Finished: 09/22/2014 17:23:36
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-energy_contrast-0_75.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.199 | ETA[sec]: -0.196 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:37
+                      Finished: 09/22/2014 17:23:37
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-energy_contrast-1_0.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.236 | ETA[sec]: -0.232 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:37
+                      Finished: 09/22/2014 17:23:38
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-energy_contrast-2_0.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.329 | ETA[sec]: -0.324 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:38
+                      Finished: 09/22/2014 17:23:39
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-seed-123456.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.201 | ETA[sec]: -0.198 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:39
+                      Finished: 09/22/2014 17:23:39
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-seed-123457.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.202 | ETA[sec]: -0.199 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:40
+                      Finished: 09/22/2014 17:23:40
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-seed-123458.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.203 | ETA[sec]: -0.200 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:40
+                      Finished: 09/22/2014 17:23:41
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-seed-123459.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.203 | ETA[sec]: -0.200 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:41
+                      Finished: 09/22/2014 17:23:41
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-seed-123460.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.202 | ETA[sec]: -0.199 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:42
+                      Finished: 09/22/2014 17:23:42
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-seed-123461.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.185 | ETA[sec]: -0.182 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:42
+                      Finished: 09/22/2014 17:23:43
+                      Total time elapsed: 0.000 sec
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[  0 %] elapsed[sec]: 0.000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Saving sequence results/color-seed-123462.webm
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+[6350 %] elapsed[sec]: 0.192 | ETA[sec]: -0.189 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+Title: 
+                      Started: 09/22/2014 17:23:43
+                      Finished: 09/22/2014 17:23:43
+                      Total time elapsed: 0.000 sec
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Testing-the-speed">Testing the speed<a class="anchor-link" href="testing_components.html#Testing-the-speed">¶</a>
+</h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [6]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">run</span> <span class="n">test_speed</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper output_hidden">
+<div class="output">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+/usr/local/lib/python2.7/site-packages/traits/has_traits.py:1536: FutureWarning: comparison to `None` will result in an elementwise object comparison in the future.
+  setattr( self, name, value )
+/usr/local/lib/python2.7/site-packages/traits/has_traits.py:1541: FutureWarning: comparison to `None` will result in an elementwise object comparison in the future.
+  setattr( self, name, value )
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Exploring-the-orientation-component-of-the-envelope-around-a-grating.">Exploring the orientation component of the envelope around a grating.<a class="anchor-link" href="testing_components.html#Exploring-the-orientation-component-of-the-envelope-around-a-grating.">¶</a>
+</h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [9]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">run</span> <span class="n">test_grating</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In [8]:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">run</span> <span class="n">test_radial</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper output_hidden">
+<div class="output">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_text output_pyerr">
+<pre>
+<span class="ansired">---------------------------------------------------------------------------</span>
+<span class="ansired">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansigreen">/Users/lolo/Dropbox/science/MotionClouds/test_radial.py</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
+<span class="ansigreen">     17</span> fx<span class="ansiblue">,</span> fy<span class="ansiblue">,</span> ft <span class="ansiblue">=</span> mc<span class="ansiblue">.</span>get_grids<span class="ansiblue">(</span>mc<span class="ansiblue">.</span>N_X<span class="ansiblue">,</span> mc<span class="ansiblue">.</span>N_Y<span class="ansiblue">,</span> mc<span class="ansiblue">.</span>N_frame<span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">     18</span> <span class="ansiblue"></span>
+<span class="ansigreen">---&gt; 19</span><span class="ansired"> </span>mc<span class="ansiblue">.</span>figures_MC<span class="ansiblue">(</span>fx<span class="ansiblue">,</span> fy<span class="ansiblue">,</span> ft<span class="ansiblue">,</span> name<span class="ansiblue">,</span> B_theta<span class="ansiblue">=</span>B_theta<span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">     20</span> verbose <span class="ansiblue">=</span> False<span class="ansiblue"></span>
+<span class="ansigreen">     21</span> <span class="ansiblue"></span>
+
+<span class="ansigreen">/usr/local/lib/python2.7/site-packages/MotionClouds/MotionClouds.pyc</span> in <span class="ansicyan">figures_MC</span><span class="ansiblue">(fx, fy, ft, name, V_X, V_Y, do_figs, do_movie, B_V, sf_0, B_sf, loggabor, theta, B_theta, alpha, vext, seed, impulse, do_amp, verbose)</span>
+<span class="ansigreen">    607</span>     <span class="ansigreen">else</span><span class="ansiblue">:</span><span class="ansiblue"></span>
+<span class="ansigreen">    608</span>         figures(z=None, name=name, vext=vext, do_figs=do_figs, do_movie=do_movie,
+<span class="ansigreen">--&gt; 609</span><span class="ansired">                     seed=seed, impulse=impulse, verbose=verbose, do_amp=do_amp)
+</span><span class="ansigreen">    610</span> <span class="ansiblue"></span>
+<span class="ansigreen">    611</span> def figures(z=None, name='MC', vext=vext, do_movie=True, do_figs=True,
+
+<span class="ansigreen">/usr/local/lib/python2.7/site-packages/MotionClouds/MotionClouds.pyc</span> in <span class="ansicyan">figures</span><span class="ansiblue">(z, name, vext, do_movie, do_figs, seed, impulse, verbose, masking, do_amp)</span>
+<span class="ansigreen">    615</span> <span class="ansiblue"></span>
+<span class="ansigreen">    616</span>     <span class="ansigreen">if</span> <span class="ansiblue">(</span><span class="ansiblue">(</span>MAYAVI <span class="ansiblue">==</span> <span class="ansiblue">'Import'</span><span class="ansiblue">)</span> <span class="ansigreen">or</span> MAYAVI<span class="ansiblue">[</span><span class="ansiblue">:</span><span class="ansicyan">2</span><span class="ansiblue">]</span><span class="ansiblue">==</span><span class="ansiblue">'Ok'</span><span class="ansiblue">)</span> <span class="ansigreen">and</span> do_figs <span class="ansigreen">and</span> check_if_anim_exist<span class="ansiblue">(</span>name<span class="ansiblue">,</span> vext<span class="ansiblue">=</span>ext<span class="ansiblue">)</span><span class="ansiblue">:</span><span class="ansiblue"></span>
+<span class="ansigreen">--&gt; 617</span><span class="ansired">         </span>visualize<span class="ansiblue">(</span>z<span class="ansiblue">,</span> name<span class="ansiblue">=</span>os<span class="ansiblue">.</span>path<span class="ansiblue">.</span>join<span class="ansiblue">(</span>figpath<span class="ansiblue">,</span> name<span class="ansiblue">)</span><span class="ansiblue">)</span>           <span class="ansired"># Visualize the Fourier Spectrum</span><span class="ansiblue"></span>
+<span class="ansigreen">    618</span> <span class="ansiblue"></span>
+<span class="ansigreen">    619</span>     <span class="ansigreen">if</span> <span class="ansiblue">(</span>do_movie <span class="ansigreen">and</span> check_if_anim_exist<span class="ansiblue">(</span>name<span class="ansiblue">,</span> vext<span class="ansiblue">=</span>vext<span class="ansiblue">)</span><span class="ansiblue">)</span> <span class="ansigreen">or</span> <span class="ansiblue">(</span><span class="ansiblue">(</span><span class="ansiblue">(</span>MAYAVI <span class="ansiblue">==</span> <span class="ansiblue">'Import'</span><span class="ansiblue">)</span> <span class="ansigreen">or</span> MAYAVI<span class="ansiblue">[</span><span class="ansiblue">:</span><span class="ansicyan">2</span><span class="ansiblue">]</span><span class="ansiblue">==</span><span class="ansiblue">'Ok'</span><span class="ansiblue">)</span> <span class="ansigreen">and</span> do_figs <span class="ansigreen">and</span> check_if_anim_exist<span class="ansiblue">(</span>name <span class="ansiblue">+</span> <span class="ansiblue">'_cube'</span><span class="ansiblue">,</span> vext<span class="ansiblue">=</span>ext<span class="ansiblue">)</span><span class="ansiblue">)</span><span class="ansiblue">:</span><span class="ansiblue"></span>
+
+<span class="ansigreen">/usr/local/lib/python2.7/site-packages/MotionClouds/MotionClouds.pyc</span> in <span class="ansicyan">visualize</span><span class="ansiblue">(z, azimuth, elevation, thresholds, opacities, name, ext, do_axis, do_grids, draw_projections, colorbar, f_N, f_tN, figsize)</span>
+<span class="ansigreen">    260</span>     import_mayavi<span class="ansiblue">(</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">    261</span> <span class="ansiblue"></span>
+<span class="ansigreen">--&gt; 262</span><span class="ansired">     </span>N_X<span class="ansiblue">,</span> N_Y<span class="ansiblue">,</span> N_frame <span class="ansiblue">=</span> z<span class="ansiblue">.</span>shape<span class="ansiblue"></span>
+<span class="ansigreen">    263</span>     fx<span class="ansiblue">,</span> fy<span class="ansiblue">,</span> ft <span class="ansiblue">=</span> get_grids<span class="ansiblue">(</span>N_X<span class="ansiblue">,</span> N_Y<span class="ansiblue">,</span> N_frame<span class="ansiblue">,</span> sparse<span class="ansiblue">=</span>False<span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">    264</span> <span class="ansiblue"></span>
+
+<span class="ansired">AttributeError</span>: 'NoneType' object has no attribute 'shape'</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In []:
+</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">cd</span> <span class="o">-</span><span class="n">b</span> <span class="n">root</span>
+</pre></div>
+
+<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
+  Hide output</i>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+        </div>
+                <ul class="pager">
+            <li class="previous">
+                <a href="psychopy_competing.html" rel="prev" title="Testing competing Motion Clouds with psychopy">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="testing_utility.html" rel="next" title="Testing the utility functions of Motion Clouds">Next post</a>
+            </li>
+        </ul>
+
+                            <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="invibe",
+            disqus_url="http://neuralensemble.github.io/MotionClouds/posts/testing_components.html",
+        disqus_title="Testing the different components of the enveloppe",
+        disqus_identifier="cache/posts/testing_components.html",
+        disqus_config = function () {
+            this.language = "";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="//disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    </div>
+                    <footer id="footer" role="contentinfo">
+            <p>Contents © 2014 <a href="mailto:laurent.perrinet@univ-amu.fr">Laurent Perrinet</a> - 
+Powered by <a href="http://getnikola.com">Nikola</a> - 
+Zen theme based in <a href="https://github.com/arusahni/website-template">Arusahni's website-template</a><br>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/ar/">
+<img alt="Creative Commons License BY-NC-SA" style="border-width:0; margin-bottom:12px;" src="http://i.creativecommons.org/l/by-nc-sa/2.5/ar/88x31.png"></a></p>
+            
+        </footer>
+
+        </div>
+    </section>
+    
+    
+                <script src="../assets/js/all-nocdn.js" type="text/javascript"></script>
+    
+ <!-- Social buttons -->
+ <div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
+ <a class="addthis_button_more"><i class="icon-share-sign icon-2x"></i>    Share</a>
+ <ul>
+ <li>
+<a class="addthis_button_twitter"><i class="icon-twitter icon-2x"></i>    Twitter</a>
+ </li>
+<li>
+<a class="addthis_button_google_plusone_share"><i class="icon-google-plus-sign icon-2x"></i>    Google+</a>
+ </li>
+<li>
+<a class="addthis_button_linkedin"><i class="icon-linkedin icon-2x"></i>    Linkedin</a>
+ </li>
+<li>
+<a class="addthis_button_facebook"><i class="icon-facebook-sign icon-2x"></i>    Facebook</a>
+ </li>
+</ul>
+ </div>
+ <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f7088a56bb93798"></script>
+ <!-- End of social buttons -->
+ 
+
+        <script type="text/javascript">
+            $(function(){
+                $('.timeago').timeago();
+            });
+        </script>
+</body>
+</html>
