@@ -1,9 +1,0 @@
-.. title: Galleries
-.. slug: galleries
-.. date: 2014-09-29 17:58:03 UTC+02:00
-.. tags: 
-.. link: 
-.. description: 
-.. type: text
-
-Write your page here.
