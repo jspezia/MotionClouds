@@ -17,11 +17,27 @@
   <lastmod>2014-10-09</lastmod>
  </sitemap>
  <sitemap>
+  <loc>http://neuralensemble.github.io/MotionClouds/galleries/color_result/rss.xml</loc>
+  <lastmod>2014-10-09</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>http://neuralensemble.github.io/MotionClouds/galleries/exemple/rss.xml</loc>
   <lastmod>2014-10-09</lastmod>
  </sitemap>
  <sitemap>
+  <loc>http://neuralensemble.github.io/MotionClouds/galleries/grating_result/rss.xml</loc>
+  <lastmod>2014-10-09</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://neuralensemble.github.io/MotionClouds/galleries/radial_result/rss.xml</loc>
+  <lastmod>2014-10-09</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>http://neuralensemble.github.io/MotionClouds/galleries/rss.xml</loc>
+  <lastmod>2014-10-09</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://neuralensemble.github.io/MotionClouds/galleries/speed_result/rss.xml</loc>
   <lastmod>2014-10-09</lastmod>
  </sitemap>
  <sitemap>
