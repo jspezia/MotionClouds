@@ -128,7 +128,7 @@ This library depends on a number of dependenci">
 <p>This page covers the installation of the MotionClouds library.</p>
 <p>This library depends on a number of dependencies, among which <code>numpy</code> is the only that is mandatory.</p>
 <!-- TEASER_END -->
-<p>This <a href="https://raw.githubusercontent.com/NeuralEnsemble/MotionClouds/master/INSTALL.md">file</a> contains installation instructions.</p>
+<p>This <a href="https://raw.githubusercontent.com/NeuralEnsemble/MotionClouds/master/INSTALL.md">file</a> contains detailed installation instructions.</p>
 </div>
 </div>
 </div>
@@ -163,6 +163,18 @@ This library depends on a number of dependenci">
 <li>optional: <code>texlive-latex-recommended  latexmk latexdiff</code> to compile the documentation</li>
 <li>optional: <code>PyOpenGL PyOpenGL_accelerate glumpy</code> to display MotionClouds online</li>
 </ol>
+<ul>
+<li><p>These dependencies may be easily met using the dedicated scripts:</p></li>
+<li>
+<p>For MacOsX, first install command line tools by typing the <code>git</code> command in the terminal (a pop-up message should happen if these tools are not installed). Then issue the following command in the terminal:</p>
+<pre><code>curl https://raw.githubusercontent.com/NeuralEnsemble/MotionClouds/master/install/install_dependencies_macosx.sh |sh</code></pre>
+</li>
+<li>
+<p>For Debian-like systems, issue the following command in the terminal</p>
+<pre><code>wget https://raw.githubusercontent.com/NeuralEnsemble/MotionClouds/master/install/install_dependencies_debian.sh -O - |sh</code></pre>
+</li>
+</ul>
+<p>Again, these line of code may be copy-and-pasted in your terminal.</p>
 <h3 id="download">download</h3>
 <ul>
 <li>
@@ -170,253 +182,16 @@ This library depends on a number of dependenci">
 <pre><code>git clone https://github.com/meduz/MotionClouds.git</code></pre>
 </li>
 <li><p>other sources exist to get a stable release, such as ModelDb (http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=146953).</p></li>
+<li><p>This was tested on several MacOsX/Mavericks 64bit machines and on ubuntu 14.04 LTS and Debian squeezy 64bit machines.</p></li>
 </ul>
-<h4 id="installation-using-custom-scripts">installation using custom scripts</h4>
+<h3 id="testing">testing</h3>
 <ul>
-<li>depending on your system you should use in a terminal window <code>sh install_dependencies_debian.sh</code> or <code>sh install_dependencies_macosx.sh</code>
-</li>
-<li>an alternative is to use a virtual machine such as for instance the one provided by the NeuroDebian team (http://neuro.debian.net/vm.html).</li>
+<li>To test the basic functionality of Motion Clouds, try in the terminal:</li>
 </ul>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="install-on-MacOsX">install on MacOsX<a class="anchor-link" href="install.html#install-on-MacOsX">¶</a>
-</h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>An install script exists at :</p>
-<p>https://raw.githubusercontent.com/NeuralEnsemble/MotionClouds/master/install_dependencies_macosx.sh</p>
-<p>These line of code may be copy-and-pasted in your terminal.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In [3]:
-</div>
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight"><pre><span class="o">%</span><span class="k">load</span> <span class="n">install_dependencies_macosx</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-
-<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
-  Hide output</i>
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In []:
-</div>
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight"><pre>%%bash
-<span class="c">#!/bin/bash</span>
-
-<span class="c"># 1. install Xcode:</span>
-<span class="c"># From this url : (uncomment the following line)</span>
-<span class="c"># open http://itunes.apple.com/us/app/xcode/id497799835?mt=12</span>
-<span class="c"># install Xcode on the Mac App Store by clicking on “View in Mac App Store”.</span>
-
-<span class="c"># 2. install HomeBrew</span>
-ruby -e <span class="s2">"$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"</span>
-<span class="c"># to reinstall, do:</span>
-<span class="c"># rm -rf /usr/local/Cellar /usr/local/.git &amp;&amp; brew cleanup</span>
-
-<span class="c"># Make sure we’re using the latest Homebrew</span>
-brew update
-
-<span class="c"># Upgrade any already-installed formulae</span>
-brew upgrade
-
-<span class="c"># install python through HomeBrew</span>
-
-pip install --upgrade setuptools
-pip install --upgrade distribute
-
-<span class="c"># bootstrap pip</span>
-pip install --upgrade setuptools
-pip install --upgrade distribute
-
-<span class="c"># numpy et al</span>
-brew install gcc
-brew install cmake
-brew install fftw
-brew install libtool
-brew install hdf5
-brew tap homebrew/science
-brew tap Homebrew/python
-pip install -U numexpr
-pip install -U cython
-pip install -U tables
-pip install -U pandas
-brew install numpy <span class="c">#--with-openblas</span>
-brew <span class="nb">test </span>numpy
-
-<span class="c"># pylab</span>
-brew install matplotlib --with-tex
-
-<span class="c"># mayavi</span>
-brew install vtk5 --with-qt
-<span class="c">#brew install vtk --python</span>
-<span class="c">#pip install traitsbackendqt</span>
-pip install configobj
-pip install envisage
-pip install  <span class="s2">"Mayavi[app]"</span>
-<span class="c"># HDF export</span>
-brew install hdf5
-pip install cython
-pip install numexpr
-pip install tables
-
-brew install wxpython
-pip install -U psychopy
-pip install pyprind
-
-
-<span class="c"># install online displaying tools</span>
-pip install PyOpenGL PyOpenGL_accelerate
-pip install glumpy
-brew install --HEAD smpeg
-brew install pygame
-pip install hg+https://pyglet.googlecode.com/hg/
-pip install -U NeuroTools
-
-<span class="c"># convert</span>
-brew install imagemagick
-brew install x264
-brew install ffmpeg
-
-<span class="c"># Remove outdated versions from the cellar</span>
-brew cleanup
-</pre></div>
-
-<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
-  Hide output</i>
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This was tested on several MacOsX/Mavericks 64bit machines.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="install-on-debian-and-friends">install on debian and friends<a class="anchor-link" href="install.html#install-on-debian-and-friends">¶</a>
-</h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>An install script exists at :</p>
-<p>https://raw.githubusercontent.com/NeuralEnsemble/MotionClouds/master/install_dependencies_debian.sh</p>
-<p>Again, these line of code may be copy-and-pasted in your terminal.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In [4]:
-</div>
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight"><pre><span class="o">%</span><span class="k">load</span> <span class="n">install_dependencies_debian</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-
-<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
-  Hide output</i>
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In []:
-</div>
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight"><pre>%%bash
-<span class="c"># installing dependencies on Debian for MotionClouds</span>
-<span class="c"># --------------------------------------------------</span>
-sudo apt-get install aptitude
-<span class="c"># it is always a good idea to update/upgrade your system before</span>
-sudo aptitude update
-sudo aptitude upgrade
-
-<span class="c"># A script for the impatient:</span>
-<span class="c"># uncomment to fit your installation preference</span>
-<span class="c"># others should read the README.txt doc.</span>
-
-
-<span class="c"># 1) minimal install</span>
-
-<span class="c"># sudo aptitude install python-numpy</span>
-
-
-<span class="c"># 2) minimal install with visualization and generation of documentation</span>
-
-<span class="c"># sudo aptitude install python-numpy python-scipy mayavi2 python-matplotlib ffmpeg</span>
-<span class="c"># sudo aptitude install texlive-latex-recommended  latexmk latexdiff</span>
-
-
-<span class="c"># 3) full install with python editor and libraries for various export types</span>
-
-sudo aptitude install python-numpy mayavi2 python-matplotlib spyder python-tables imagemagick texlive-latex-recommended latexmk latexdiff zip ipython psychopy
-<span class="c"># http://askubuntu.com/questions/432542/is-ffmpeg-missing-from-the-official-repositories-in-14-04</span>
-sudo add-apt-repository ppa:mc3man/trusty-media
-sudo apt-get update
-sudo apt-get install ffmpeg
-
-pip install pyprind
-</pre></div>
-
-<i class="icon-hand-up icon-large" style="float:right; margin-bottom:8px; margin-right:10px">
-  Hide output</i>
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This was tested on ubuntu 14.04 LTS and Debain squeezy 64bit machines.</p>
+<pre><code>python -c'import MotionClouds as mc; fx, fy, ft = mc.get_grids(mc.N_X, mc.N_Y, mc.N_frame); z = mc.envelope_gabor(fx, fy, ft)'</code></pre>
+<ul>
+<li>If that fails, we will be happy to help out, so send an e-mail to laurent.perrinet@univ-amu.fr.</li>
+</ul>
 </div>
 </div>
 </div>
