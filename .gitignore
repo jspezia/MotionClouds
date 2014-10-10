@@ -1,0 +1,5 @@
+*.swp
+*.pyc
+.doit.db
+site/cache/*
+site/output/*
