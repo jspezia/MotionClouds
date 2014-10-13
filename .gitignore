@@ -1,5 +1,7 @@
 *.swp
+.ipynb*
 *.pyc
+*/results/*
 .doit.db
 site/cache/*
 site/output/*
