@@ -4,7 +4,7 @@ echo 'attention: la suppression des fichiers doit se faire manuellement ā la ra
 	git rm -r path/dossier/*
 	git rm path/fichier'
 cd ..
-rm -rf assets blog categories galleries post
+rm -rf assets blog categories galleries posts
 mv site/output/* ./
 git add .
 git commit -m 'update'
