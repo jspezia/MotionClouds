@@ -8,11 +8,10 @@
 
 These scripts implement a framework to generate random texture movies with controlled information content that we call [Motion Clouds](http://neuralensemble.github.io/MotionClouds "The Motion Clouds page on neuralensemble"). In particular, these stimuli can be made closer to naturalistic textures compared to usual stimuli such as gratings and random-dot kinetograms. We simplified the definition to parametrically define these "Motion Clouds" around the most prevalent feature axis (mean and bandwith): direction, spatial frequency, orientation.
 
-<img src="http://invibe.net/cgi-bin/index.cgi/SciBlog/2011-07-12?action=AttachFile&do=get&target=MotionPlaid_comp1.gif" width="100%">
 
 The description of this method was published in:
 
-* Paula S. Leon, Ivo Vanzetta, Guillaume S. Masson, Laurent U. Perrinet. _Motion Clouds: Model-based stimulus synthesis of natural-like random textures for the study of motion perception._ **Journal of Neurophysiology**, 107(11):3217--3226, 2012  [URL](http://invibe.net/LaurentPerrinet/Publications/Sanz12)
+* Paula S. Leon, Ivo Vanzetta, Guillaume S. Masson, Laurent U. Perrinet. _Motion Clouds: Model-based stimulus synthesis of natural-like random textures for the study of motion perception._ [**Journal of Neurophysiology**](http://jn.physiology.org/content/early/2012/03/10/jn.00737.2011), 107(11):3217--3226, 2012  [URL](http://invibe.net/LaurentPerrinet/Publications/Sanz12)
 
 While this method was used in the following paper:
 
@@ -38,14 +37,14 @@ All functions are implemented in one main script called `MotionClouds.py` that h
 import MotionClouds as mc
 import numpy as np
 # define Fourier domain
-fx, fy, ft = mc.get_grids(mc.N_X, mc.N_Y, mc.N_frame) 
+fx, fy, ft = mc.get_grids(mc.N_X, mc.N_Y, mc.N_frame)
 # define an envelope
-envelope = mc.envelope_gabor(fx, fy, ft, 
-    V_X=1., V_Y=0., B_V=.1, 
-    sf_0=.15, B_sf=.1, 
-    theta=0., B_theta=np.pi/8, alpha=1.) 
+envelope = mc.envelope_gabor(fx, fy, ft,
+    V_X=1., V_Y=0., B_V=.1,
+    sf_0=.15, B_sf=.1,
+    theta=0., B_theta=np.pi/8, alpha=1.)
 # Visualize the Fourier Spectrum
-mc.visualize(envelope)  
+mc.visualize(envelope)
 ```
 
 2. perform the IFFT and contrast normalization; visualize the stimulus as a 'cube' visualization of the image sequence, 
