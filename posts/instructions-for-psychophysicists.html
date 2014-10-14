@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Instructions for Psychophysicists | Motion Clouds</title>
+
+                <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+
+                <link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+
+      <link rel="canonical" href="http://neuralensemble.github.io/MotionClouds/posts/instructions-for-psychophysicists.html">
+
+            <link rel="icon" href="favicon.ico" sizes="16x16">
+
+
+    
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+    },
+    displayAlign: 'left', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script>
+
+        <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+
+    
+
+    
+    <meta name="author" content="Laurent Perrinet">
+        <meta name="og:title" content="Instructions for Psychophysicists">
+    <meta name="og:url" content="http://neuralensemble.github.io/MotionClouds/posts/instructions-for-psychophysicists.html">
+    <meta name="og:description" content="making psychophysics experiments using psychopy + motionclouds
+installation (preparation 3min, cooking / downloading 10 min)
+
+it is easy to create a simple psychophysical experiment using a combinatio">
+    <meta name="og:site_name" content="Motion Clouds">
+    <meta name="og:type" content="article">
+
+    
+    
+
+</head>
+<body>
+    <section class="social">
+        <ul>
+                    <li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../install.html" title="Install"><i class="icon-italic"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../galleries/index.html" title="Galleries"><i class="icon-book"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-pushpin"></i></a></li>
+            <li><a href="https://www.google.fr/cse/publicurl?cx=005955371941833639548:qupzal9fqky" title="Search"><i class="icon-search"></i></a></li>
+            <li><a href="http://invibe.net" title="About my research"><i class="icon-user"></i></a></li>
+            <li><a href="https://github.com/NeuralEnsemble/MotionClouds" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul>
+    </section>
+    <section class="page-content">
+        <div class="content" rel="main">
+    <div class="post">
+        <h1 class="p-name entry-title" itemprop="headline name">Instructions for Psychophysicists</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2014-10-14T10:37:55+02:00">2014-10-14 10:37</time>
+            
+                      |  
+        <a href="instructions-for-psychophysicists.ipynb" id="sourcelink">Source</a>
+          |  
+        <a href="javascript:%24.getScript(%22/assets/js/miniPageNav.js%22);">Minimap</a>
+
+            </div>
+            
+        </div>
+        <div class="body">
+            <div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="making-psychophysics-experiments-using-psychopy-motionclouds">making psychophysics experiments using psychopy + motionclouds</h2>
+<h3 id="installation-preparation-3min-cooking-downloading-10-min">installation (preparation 3min, cooking / downloading 10 min)</h3>
+<ul>
+<li>it is easy to create a simple psychophysical experiment using a combination of PsychoPy and MotionClouds. Simply download the standalone psychopy binary for your computer and try to load the example script psychopy_competing.py.</li>
+<li>for this, you may:</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>clone / download the <a href="https://github.com/NeuralEnsemble/MotionClouds">MC repository</a> on github.</li>
+<li>download <a href="http://www.psychopy.org/installation.html">PsychoPy</a>
+</li>
+</ol>
+<ul>
+<li>then, open the psychopy_competing.py file in the editor (the so-called "PsychoPy Coder")</li>
+</ul>
+<p><img src="psy1.png"></p>
+<h3 id="running">running</h3>
+<ul>
+<li>Hit the run button (the green round button with a runner on it), it will then:</li>
+<li>tell you about some configuration parameters (be sure to enter the correct size of your screen)</li>
+<li>pre-generate data</li>
+<li>run the experiment, that is present a sequence of trials consisting of :</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>a movie presentation,</li>
+<li>a blank screen where the program waits for a key press: UP arrow if you saw the movie going up, DOWN if down or Q / Esc to exit</li>
+</ol>
+<h3 id="results">results</h3>
+<ul>
+<li>the results are displayed at the end showing that :</li>
+<li>the movies consisted of 2 MotionClouds in opposite directions (UP and DOWN) but added with different contrasts,</li>
+<li>the percept was going up or down (on the y-axis) as a function of this contrast (x-axis)</li>
+<li>it seems I have a slight bias for UP movements as the contrast of equal probability seems inferior to 1/2 (a proper analysis would necessitate a fit).</li>
+</ul>
+<p><img src="psy2.png"></p>
+</div>
+</div>
+</div>
+        </div>
+                <ul class="pager">
+            <li class="previous">
+                <a href="testing-color.html" rel="prev" title="Testing Color">Previous post</a>
+            </li>
+        </ul>
+
+                            <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="invibe",
+            disqus_url="http://neuralensemble.github.io/MotionClouds/posts/instructions-for-psychophysicists.html",
+        disqus_title="Instructions for Psychophysicists",
+        disqus_identifier="cache/posts/instructions-for-psychophysicists.html",
+        disqus_config = function () {
+            this.language = "";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="//disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    </div>
+                    <footer id="footer" role="contentinfo">
+            <p>Contents © 2014 <a href="mailto:laurent.perrinet@univ-amu.fr">Laurent Perrinet</a> - 
+Powered by <a href="http://getnikola.com">Nikola</a> - 
+Zen theme based in <a href="https://github.com/arusahni/website-template">Arusahni's website-template</a><br>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/ar/">
+<img alt="Creative Commons License BY-NC-SA" style="border-width:0; margin-bottom:12px;" src="http://i.creativecommons.org/l/by-nc-sa/2.5/ar/88x31.png"></a></p>
+            
+        </footer>
+
+        </div>
+    </section>
+    
+    
+                <script src="../assets/js/all-nocdn.js" type="text/javascript"></script>
+    
+ <!-- Social buttons -->
+ <div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
+ <a class="addthis_button_more"><i class="icon-share-sign icon-2x"></i>    Share</a>
+ <ul>
+ <li>
+<a class="addthis_button_twitter"><i class="icon-twitter icon-2x"></i>    Twitter</a>
+ </li>
+<li>
+<a class="addthis_button_google_plusone_share"><i class="icon-google-plus-sign icon-2x"></i>    Google+</a>
+ </li>
+<li>
+<a class="addthis_button_linkedin"><i class="icon-linkedin icon-2x"></i>    Linkedin</a>
+ </li>
+<li>
+<a class="addthis_button_facebook"><i class="icon-facebook-sign icon-2x"></i>    Facebook</a>
+ </li>
+</ul>
+ </div>
+ <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f7088a56bb93798"></script>
+ <!-- End of social buttons -->
+ 
+
+        <script type="text/javascript">
+            $(function(){
+                $('.timeago').timeago();
+            });
+        </script>
+</body>
+</html>
