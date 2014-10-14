@@ -2,7 +2,7 @@
 
 echo 'attention: la suppression des fichiers doit se faire manuellement ā la racine de gh-pages mais aussi dans site/:
 	git rm -r path/dossier/*
-	git rm path/fichier'
+	git rm -r path/site/dossier/*'
 cd ..
 rm -rf assets blog categories galleries posts
 mv site/output/* ./
