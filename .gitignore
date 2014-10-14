@@ -1,4 +1,7 @@
 *.swp
+MANIFEST
+dist
+build
 .ipynb*
 *.pyc
 */results/*
